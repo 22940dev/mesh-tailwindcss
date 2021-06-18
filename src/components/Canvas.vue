@@ -1,27 +1,85 @@
 <template>
   <div class="relative">
-    <div class="absolute inset-0 flex items-center justify-center">
+    <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
       <h2
-        class="text-white text-opacity-50 font-bold text-5xl"
+        class="text-5xl font-bold text-white text-opacity-50"
         v-text="name"
       />
     </div>
 
+    <div class="absolute inset-x-0 bottom-4">
+      <div>
+        <select
+          v-model="tl"
+          @change="redraw"
+        >
+          <option
+            v-for="item of colors"
+            :key="item"
+          >
+            {{ item }}
+          </option>
+        </select>
+      </div>
+
+      <div>
+        <select
+          v-model="tr"
+          @change="redraw"
+        >
+          <option
+            v-for="item of colors"
+            :key="item"
+          >
+            {{ item }}
+          </option>
+        </select>
+      </div>
+
+      <div>
+        <select
+          v-model="bl"
+          @change="redraw"
+        >
+          <option
+            v-for="item of colors"
+            :key="item"
+          >
+            {{ item }}
+          </option>
+        </select>
+      </div>
+
+      <div>
+        <select
+          v-model="br"
+          @change="redraw"
+        >
+          <option
+            v-for="item of colors"
+            :key="item"
+          >
+            {{ item }}
+          </option>
+        </select>
+      </div>
+    </div>
+
     <span
       ref="topLeft"
-      :class="topLeft"
+      :class="tl"
     />
     <span
       ref="topRight"
-      :class="topRight"
+      :class="tr"
     />
     <span
       ref="bottomLeft"
-      :class="bottomLeft"
+      :class="bl"
     />
     <span
       ref="bottomRight"
-      :class="bottomRight"
+      :class="br"
     />
     <div class="h-screen">
       <canvas ref="canvas" />
@@ -30,6 +88,8 @@
 </template>
 
 <script>
+import { colors } from '@/data/colors'
+
 export default {
   props: {
     topLeft: String,
@@ -37,6 +97,15 @@ export default {
     bottomLeft: String,
     bottomRight: String,
     name: String
+  },
+  data() {
+    return {
+      colors,
+      tl: this.topLeft,
+      tr: this.topRight,
+      bl: this.bottomLeft,
+      br: this.bottomRight
+    }
   },
   mounted() {
     this.draw()
@@ -87,6 +156,9 @@ export default {
       ctx.fillStyle = topLeft
       ctx.fillRect(0, 0, width, height)
     },
+    redraw() {
+      this.$nextTick(() => this.draw())
+    }
   }
 }
 </script>

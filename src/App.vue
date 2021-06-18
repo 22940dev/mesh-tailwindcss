@@ -26,6 +26,6 @@ export default {
     return {
       gradients
     }
-  }
+  },
 }
 </script>
