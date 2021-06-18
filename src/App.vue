@@ -1,28 +1,31 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <Canvas
+      v-for="gradient of gradients"
+      :key="gradient.name"
+      :top-left="gradient.topLeft"
+      :top-right="gradient.topRight"
+      :bottom-left="gradient.bottomLeft"
+      :bottom-right="gradient.bottomRight"
+      :name="gradient.name"
+    />
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import { gradients } from '@/data/gradients'
+
+import Canvas from './components/Canvas'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    Canvas
+  },
+  data() {
+    return {
+      gradients
+    }
   }
 }
 </script>
-
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
