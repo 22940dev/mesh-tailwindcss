@@ -1,5 +1,3 @@
-/* eslint-disable */
-
 export const gradients = [
   {
     name: 'Pump',

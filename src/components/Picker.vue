@@ -1,5 +1,8 @@
 <template>
-  <div class="relative">
+  <div
+    class="absolute"
+    :class="position"
+  >
     <div
       v-if="show"
       v-click-outside="hide"
@@ -53,10 +56,11 @@
 <script>
 export default {
   props: {
-    position: String,
-    value: String,
     colors: Array,
-    open: String
+    open: String,
+    position: String,
+    target: String,
+    value: String,
   },
   data() {
     return {
@@ -73,7 +77,7 @@ export default {
   },
   methods: {
     fireAction(color) {
-      this.$emit('action', this.position, color)
+      this.$emit('action', this.target, color)
     },
     hide() {
       this.show = false

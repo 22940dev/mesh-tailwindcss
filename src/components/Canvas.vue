@@ -1,60 +1,21 @@
 <template>
   <div class="relative">
-    <div class="absolute top-4 left-4">
-      <Select
-        position="tl"
-        :value="tl"
-        :colors="colors"
-        open="top-12 left-0"
-        @action="handleColorChange"
-      />
-    </div>
-
-    <div class="absolute top-4 right-4">
-      <Select
-        position="tr"
-        :value="tr"
-        :colors="colors"
-        open="top-12 right-0"
-        @action="handleColorChange"
-      />
-    </div>
-
-    <div class="absolute bottom-4 left-4">
-      <Select
-        position="bl"
-        :value="bl"
-        :colors="colors"
-        open="bottom-12 left-0"
-        @action="handleColorChange"
-      />
-    </div>
-
-    <div class="absolute bottom-4 right-4">
-      <Select
-        position="br"
-        :value="br"
-        :colors="colors"
-        open="bottom-12 right-0"
-        @action="handleColorChange"
-      />
-    </div>
-
-    <span
-      ref="topLeft"
-      :class="tl"
+    <Controls
+      :tl-color="tlColor"
+      :tr-color="trColor"
+      :bl-color="blColor"
+      :br-color="brColor"
+      @action="handleColor"
     />
-    <span
-      ref="topRight"
-      :class="tr"
-    />
-    <span
-      ref="bottomLeft"
-      :class="bl"
-    />
-    <span
-      ref="bottomRight"
-      :class="br"
+
+    <Download @action="handleDownload" />
+
+    <Colors
+      ref="colors"
+      :tl-color="tlColor"
+      :tr-color="trColor"
+      :bl-color="blColor"
+      :br-color="brColor"
     />
 
     <div class="h-screen">
@@ -64,73 +25,84 @@
 </template>
 
 <script>
-import { colors } from '@/data/colors'
+import Colors from '@/components/Colors'
+import Controls from '@/components/Controls'
+import Download from '@/components/Download'
 
-import Select from '@/components/Select'
+import { getColor, getRGBA } from '@/utils/colors'
 
 export default {
   components: {
-    Select,
+    Controls,
+    Download,
+    Colors,
   },
   props: {
+    name: String,
     topLeft: String,
     topRight: String,
     bottomLeft: String,
     bottomRight: String,
-    name: String
   },
   data() {
     return {
-      colors,
-      tl: this.topLeft,
-      tr: this.topRight,
-      bl: this.bottomLeft,
-      br: this.bottomRight
+      tlColor: this.topLeft,
+      trColor: this.topRight,
+      blColor: this.bottomLeft,
+      brColor: this.bottomRight,
+      width: '',
+      height: ''
     }
   },
   mounted() {
+    const canvas = this.$refs.canvas
+
+    this.width = window.innerWidth
+    this.height = window.innerHeight
+
+    canvas.width = this.width
+    canvas.height = this.height
+
     this.draw()
   },
   methods: {
-    handleColorChange(position, value) {
-      this[position] = value
+    handleDownload() {
+      const link = document.createElement('a')
+
+      link.download = `Hypermesh - ${this.name}.png`
+      link.href = this.$refs.canvas.toDataURL()
+      link.click()
+    },
+    handleColor(target, value) {
+      this[target] = value
       this.redraw()
     },
-    color(el) {
-      return getComputedStyle(el).getPropertyValue('background-color')
-    },
-    rgba(color) {
-      return color.replace('rgb', 'rgba').replace(')', ', 0)')
-    },
     draw() {
-      let canvas = this.$refs.canvas
-      let ctx = canvas.getContext('2d')
-
-      let [width, height] = [window.innerWidth, window.innerHeight]
-
-      canvas.width = width
-      canvas.height = height
-
-      let topLeftColor = this.color(this.$refs.topLeft)
-      let topRightColor = this.color(this.$refs.topRight)
-      let bottomLeftColor = this.color(this.$refs.bottomLeft)
-      let bottomRightColor = this.color(this.$refs.bottomRight)
+      const canvas = this.$refs.canvas
+      const ctx = canvas.getContext('2d')
+      const height = this.height
+      const width = this.width
+      const colors = this.$refs.colors
+      const tlColor = getColor(colors.$refs.topLeft)
+      const trColor = getColor(colors.$refs.topRight)
+      const blColor = getColor(colors.$refs.bottomLeft)
+      const brColor = getColor(colors.$refs.bottomRight)
 
       const topLeft = ctx.createRadialGradient(0, 0, 1, 0, 0, height)
-      topLeft.addColorStop(0, topLeftColor)
-      topLeft.addColorStop(1, this.rgba(topLeftColor))
+      topLeft.addColorStop(0, tlColor)
+      topLeft.addColorStop(1, getRGBA(tlColor))
 
       const bottomLeft = ctx.createRadialGradient(0, height, 1, 0, height, height)
-      bottomLeft.addColorStop(0, bottomLeftColor)
-      bottomLeft.addColorStop(1, this.rgba(bottomLeftColor))
+      bottomLeft.addColorStop(0, blColor)
+      bottomLeft.addColorStop(1, getRGBA(blColor))
 
       const topRight = ctx.createRadialGradient(width, 0, 1, height, 0, height)
-      topRight.addColorStop(0, topRightColor)
-      topRight.addColorStop(1, this.rgba(topRightColor))
+      topRight.addColorStop(0, trColor)
+      topRight.addColorStop(1, getRGBA(trColor))
 
       const bottomRight = ctx.createRadialGradient(width, height, 1, height, height, width)
-      bottomRight.addColorStop(0, bottomRightColor)
-      bottomRight.addColorStop(1, this.rgba(bottomRightColor))
+      bottomRight.addColorStop(0, brColor)
+      bottomRight.addColorStop(1, getRGBA(brColor))
 
       ctx.fillStyle = bottomRight
       ctx.fillRect(0, 0, width, height)
