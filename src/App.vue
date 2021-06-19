@@ -1,5 +1,8 @@
 <template>
-  <div id="app">
+  <div
+    id="app"
+    class="h-screen overflow-scroll scroll-snap"
+  >
     <Canvas
       v-for="gradient of gradients"
       :key="gradient.name"
@@ -8,6 +11,7 @@
       :bottom-left="gradient.bottomLeft"
       :bottom-right="gradient.bottomRight"
       :name="gradient.name"
+      class="scroll-snap-child"
     />
   </div>
 </template>
@@ -29,3 +33,20 @@ export default {
   },
 }
 </script>
+
+<style scoped>
+.scroll-snap {
+  scroll-snap-type: y mandatory;
+  scroll-snap-points-y: repeat(100vh);
+}
+
+.scroll-snap-child {
+  scroll-snap-align: start;
+}
+</style>
+
+<style>
+button, input {
+  @apply focus:outline-none focus:ring focus:ring-pink-600;
+}
+</style>

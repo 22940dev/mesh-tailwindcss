@@ -3,7 +3,7 @@
     <Picker
       :colors="colors"
       :value="tlColor"
-      open="top-12 left-0"
+      open="top-16 left-0"
       position="absolute top-4 left-4"
       target="tlColor"
       @action="emitColor"
@@ -12,7 +12,7 @@
     <Picker
       :colors="colors"
       :value="trColor"
-      open="top-12 right-0"
+      open="top-16 right-0"
       position="absolute top-4 right-4"
       target="trColor"
       @action="emitColor"
@@ -21,7 +21,7 @@
     <Picker
       :colors="colors"
       :value="blColor"
-      open="bottom-12 left-0"
+      open="bottom-16 left-0"
       position="absolute bottom-4 left-4"
       target="blColor"
       @action="emitColor"
@@ -30,7 +30,7 @@
     <Picker
       :colors="colors"
       :value="brColor"
-      open="bottom-12 right-0"
+      open="bottom-16 right-0"
       position="absolute bottom-4 right-4"
       target="brColor"
       @action="emitColor"
