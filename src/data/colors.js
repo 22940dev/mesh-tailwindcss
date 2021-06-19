@@ -180,17 +180,17 @@ const blue = [
   'bg-blue-900',
 ]
 
-const lightBlue = [
-  'bg-light-blue-50',
-  'bg-light-blue-100',
-  'bg-light-blue-200',
-  'bg-light-blue-300',
-  'bg-light-blue-400',
-  'bg-light-blue-500',
-  'bg-light-blue-600',
-  'bg-light-blue-700',
-  'bg-light-blue-800',
-  'bg-light-blue-900',
+const sky = [
+  'bg-sky-50',
+  'bg-sky-100',
+  'bg-sky-200',
+  'bg-sky-300',
+  'bg-sky-400',
+  'bg-sky-500',
+  'bg-sky-600',
+  'bg-sky-700',
+  'bg-sky-800',
+  'bg-sky-900',
 ]
 
 const indigo = [
@@ -285,8 +285,6 @@ const rose = [
 ]
 
 export const colors = [
-  'bg-white',
-  'bg-black',
   ...gray,
   ...blueGray,
   ...coolGray,
@@ -301,7 +299,7 @@ export const colors = [
   ...teal,
   ...cyan,
   ...blue,
-  ...lightBlue,
+  ...sky,
   ...indigo,
   ...violet,
   ...purple,
@@ -309,4 +307,6 @@ export const colors = [
   ...red,
   ...pink,
   ...rose,
+  'bg-white',
+  'bg-black',
 ]

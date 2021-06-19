@@ -1,5 +1,5 @@
 <template>
-  <div class="relative h-screen">
+  <div class="relative">
     <Controls
       :tl-color="tlColor"
       :tr-color="trColor"

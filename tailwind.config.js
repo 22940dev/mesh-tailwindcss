@@ -1,9 +1,10 @@
 /* eslint-disable */
 
 const colors = require('tailwindcss/colors')
+const defaultTheme = require('tailwindcss/defaultTheme')
 
 module.exports = {
-  purge: [],
+  purge: ['./src/data/*.js', './src/**/*.vue', './src/*.vue'],
   darkMode: false,
   theme: {
     extend: {
@@ -18,11 +19,17 @@ module.exports = {
         emerald: colors.emerald,
         teal: colors.teal,
         cyan: colors.cyan,
-        'light-blue': colors.lightBlue,
+        sky: colors.sky,
         violet: colors.violet,
         purple: colors.purple,
         fuchsia: colors.fuchsia,
         rose: colors.rose,
+      },
+      fontFamily: {
+        sans: ['Inter', ...defaultTheme.fontFamily.sans],
+      },
+      padding: {
+        full: '100%',
       },
     },
   },

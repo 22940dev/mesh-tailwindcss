@@ -6,7 +6,7 @@
     <div
       v-if="show"
       v-click-outside="hide"
-      class="absolute w-64 h-64 p-4 overflow-y-auto bg-white bg-opacity-25 shadow-sm rounded-xl"
+      class="absolute p-4 overflow-y-auto bg-white bg-opacity-25 shadow-sm h-80 w-96 rounded-xl"
       :class="open"
     >
       <input
@@ -17,17 +17,26 @@
         placeholder="Search for a color"
       >
 
-      <ul class="grid grid-cols-8 gap-2 mt-4">
+      <ul class="grid grid-cols-2 mt-4">
         <li
           v-for="color of twColors"
           :key="color"
         >
           <button
             type="button"
-            :class="color"
-            class="w-6 h-6 rounded-md"
+            class="flex items-center w-full p-2 rounded-lg hover:bg-white hover:bg-opacity-25"
             @click="fireAction(color)"
-          />
+          >
+            <span
+              class="w-6 h-6 rounded-md"
+              :class="color"
+            />
+
+            <span
+              class="ml-4 text-sm font-medium text-white"
+              v-text="name(color)"
+            />
+          </button>
         </li>
       </ul>
     </div>
@@ -44,7 +53,7 @@
 
       <span
         class="text-sm font-medium"
-        v-text="name"
+        v-text="name(value)"
       />
 
       <span>
@@ -79,7 +88,7 @@ export default {
   data() {
     return {
       show: false,
-      search: ''
+      search: '',
     }
   },
   computed: {
@@ -88,9 +97,6 @@ export default {
 
       return this.colors.filter((color) => color.includes(this.search))
     },
-    name() {
-      return this.value.replace('bg-', '')
-    }
   },
   methods: {
     fireAction(color) {
@@ -102,6 +108,9 @@ export default {
     },
     view() {
       this.show = true
+    },
+    name(color) {
+      return color.replace('bg-', '')
     }
   }
 }
