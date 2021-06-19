@@ -1,68 +1,43 @@
 <template>
   <div class="relative">
-    <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
-      <h2
-        class="text-5xl font-bold text-white text-opacity-50"
-        v-text="name"
+    <div class="absolute top-4 left-4">
+      <Select
+        position="tl"
+        :value="tl"
+        :colors="colors"
+        open="top-12 left-0"
+        @action="handleColorChange"
       />
     </div>
 
-    <div class="absolute inset-x-0 bottom-4">
-      <div>
-        <select
-          v-model="tl"
-          @change="redraw"
-        >
-          <option
-            v-for="item of colors"
-            :key="item"
-          >
-            {{ item }}
-          </option>
-        </select>
-      </div>
+    <div class="absolute top-4 right-4">
+      <Select
+        position="tr"
+        :value="tr"
+        :colors="colors"
+        open="top-12 right-0"
+        @action="handleColorChange"
+      />
+    </div>
 
-      <div>
-        <select
-          v-model="tr"
-          @change="redraw"
-        >
-          <option
-            v-for="item of colors"
-            :key="item"
-          >
-            {{ item }}
-          </option>
-        </select>
-      </div>
+    <div class="absolute bottom-4 left-4">
+      <Select
+        position="bl"
+        :value="bl"
+        :colors="colors"
+        open="bottom-12 left-0"
+        @action="handleColorChange"
+      />
+    </div>
 
-      <div>
-        <select
-          v-model="bl"
-          @change="redraw"
-        >
-          <option
-            v-for="item of colors"
-            :key="item"
-          >
-            {{ item }}
-          </option>
-        </select>
-      </div>
-
-      <div>
-        <select
-          v-model="br"
-          @change="redraw"
-        >
-          <option
-            v-for="item of colors"
-            :key="item"
-          >
-            {{ item }}
-          </option>
-        </select>
-      </div>
+    <div class="absolute bottom-4 right-4">
+      <Select
+        position="br"
+        :value="br"
+        :colors="colors"
+        open="bottom-12 right-0"
+        @action="handleColorChange"
+      />
     </div>
 
     <span
@@ -81,6 +56,7 @@
       ref="bottomRight"
       :class="br"
     />
+
     <div class="h-screen">
       <canvas ref="canvas" />
     </div>
@@ -90,7 +66,12 @@
 <script>
 import { colors } from '@/data/colors'
 
+import Select from '@/components/Select'
+
 export default {
+  components: {
+    Select,
+  },
   props: {
     topLeft: String,
     topRight: String,
@@ -111,6 +92,10 @@ export default {
     this.draw()
   },
   methods: {
+    handleColorChange(position, value) {
+      this[position] = value
+      this.redraw()
+    },
     color(el) {
       return getComputedStyle(el).getPropertyValue('background-color')
     },
@@ -135,13 +120,13 @@ export default {
       topLeft.addColorStop(0, topLeftColor)
       topLeft.addColorStop(1, this.rgba(topLeftColor))
 
-      const topRight = ctx.createRadialGradient(0, height, 1, 0, height, height)
-      topRight.addColorStop(0, topRightColor)
-      topRight.addColorStop(1, this.rgba(topRightColor))
-
-      const bottomLeft = ctx.createRadialGradient(width, 0, 1, height, 0, height)
+      const bottomLeft = ctx.createRadialGradient(0, height, 1, 0, height, height)
       bottomLeft.addColorStop(0, bottomLeftColor)
       bottomLeft.addColorStop(1, this.rgba(bottomLeftColor))
+
+      const topRight = ctx.createRadialGradient(width, 0, 1, height, 0, height)
+      topRight.addColorStop(0, topRightColor)
+      topRight.addColorStop(1, this.rgba(topRightColor))
 
       const bottomRight = ctx.createRadialGradient(width, height, 1, height, height, width)
       bottomRight.addColorStop(0, bottomRightColor)
