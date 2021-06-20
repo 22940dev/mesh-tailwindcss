@@ -7,6 +7,7 @@ module.exports = {
   purge: ['./src/data/*.js', './src/**/*.vue', './src/*.vue'],
   darkMode: false,
   theme: {
+    container: { center: true, padding: '1rem' },
     extend: {
       colors: {
         'blue-gray': colors.blueGray,
